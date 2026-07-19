@@ -1,12 +1,38 @@
 import mongoose from "mongoose";
 
-const studentSchema = new mongoose.Schema({
-    id: Number,
-    studentName: String,
-    branch: String,
-    cgpa: Number,
-    roomNo: Number,
-    hostel: String
-});
+const studentSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: true,
+    },
 
-export default mongoose.model("Student", studentSchema);
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+    },
+
+    phone: {
+      type: String,
+      required: true,
+    },
+
+    branch: {
+      type: String,
+      required: true,
+    },
+
+    roomNo: {
+      type: String,
+      required: true,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+const Student = mongoose.model("Student", studentSchema);
+
+export default Student;

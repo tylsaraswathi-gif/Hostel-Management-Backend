@@ -1,31 +1,29 @@
 import express from "express";
+import dotenv from "dotenv";
+import cors from "cors";
+
 import connectDB from "./config/db.js";
-
 import studentRoutes from "./routes/studentRoutes.js";
-import roomRoutes from "./routes/roomRoutes.js";
-import complaintRoutes from "./routes/complaintRoutes.js";
 
-const app = express();
-const PORT = 8000;
+dotenv.config();
 
-// Connect MongoDB
 connectDB();
 
-// Middleware
+const app = express();
+
+app.use(cors());
 app.use(express.json());
 
-// Home Route
+
 app.get("/", (req, res) => {
-    res.send("Welcome to Hostel Management Backend");
+  res.send("Hostel Management Backend Running");
 });
 
-// Routes
-app.use("/students", studentRoutes);
-app.use("/rooms", roomRoutes);
-app.use("/complaints", complaintRoutes);
+app.use("/api/students", studentRoutes);
 
-// Start Server
+const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
-    console.log(`Server Started Successfully`);
-    console.log(`http://localhost:${PORT}`);
+  console.log(`Server Started Successfully`);
+  console.log(`http://localhost:${PORT}`);
 });

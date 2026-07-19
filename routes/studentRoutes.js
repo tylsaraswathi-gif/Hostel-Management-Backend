@@ -5,11 +5,16 @@ import {
   getStudentById,
   addStudent,
   updateStudent,
-  deleteStudent
+  deleteStudent,
+  loginStudent,
 } from "../controllers/studentControllers.js";
 
 const router = express.Router();
 
+// Login Route
+router.post("/login", loginStudent);
+
+// Student CRUD Routes
 router.get("/", getStudents);
 
 router.get("/:id", getStudentById);
