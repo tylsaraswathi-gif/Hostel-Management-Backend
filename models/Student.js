@@ -27,6 +27,11 @@ const studentSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    cgpa: {
+      type: Number,
+      required: true,
+    },
   },
   {
     timestamps: true,
