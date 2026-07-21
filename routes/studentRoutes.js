@@ -11,18 +11,44 @@ import {
 
 const router = express.Router();
 
-// Login Route
+// =======================
+// Login
+// =======================
 router.post("/login", loginStudent);
 
-// Student CRUD Routes
+// =======================
+// Get All Students
+// Supports:
+// page
+// limit
+// search
+// sortBy
+// order
+// Example:
+// /api/students?page=1&limit=5
+// /api/students?page=2&limit=5&search=John
+// /api/students?page=1&limit=5&sortBy=studentName&order=asc
+// =======================
 router.get("/", getStudents);
 
+// =======================
+// Get Student By ID
+// =======================
 router.get("/:id", getStudentById);
 
+// =======================
+// Add Student
+// =======================
 router.post("/", addStudent);
 
+// =======================
+// Update Student
+// =======================
 router.put("/:id", updateStudent);
 
+// =======================
+// Delete Student
+// =======================
 router.delete("/:id", deleteStudent);
 
 export default router;
