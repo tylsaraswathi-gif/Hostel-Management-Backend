@@ -4,6 +4,7 @@ import cors from "cors";
 
 import connectDB from "./config/db.js";
 import studentRoutes from "./routes/studentRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 
 dotenv.config();
 
@@ -12,15 +13,19 @@ connectDB();
 const app = express();
 
 app.use(cors());
-app.use("/uploads",express.static("uploads"));
 app.use(express.json());
 
+// Serve uploaded images
+app.use("/uploads", express.static("uploads"));
 
+// Home Route
 app.get("/", (req, res) => {
   res.send("Hostel Management Backend Running");
 });
 
-app.use("/api/students", studentRoutes);
+// Routes
+app.use("/students", studentRoutes);
+app.use("/auth", authRoutes);
 
 const PORT = process.env.PORT || 5000;
 
