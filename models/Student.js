@@ -2,15 +2,17 @@ import mongoose from "mongoose";
 
 const studentSchema = new mongoose.Schema(
   {
-    name: {
+    studentName: {
       type: String,
       required: true,
+      trim: true,
     },
 
     email: {
       type: String,
       required: true,
       unique: true,
+      lowercase: true,
     },
 
     phone: {
@@ -21,6 +23,7 @@ const studentSchema = new mongoose.Schema(
     branch: {
       type: String,
       required: true,
+      enum: ["CSE", "CSM", "AI", "CIVIL", "DS", "AIML"],
     },
 
     roomNo: {
@@ -28,9 +31,9 @@ const studentSchema = new mongoose.Schema(
       required: true,
     },
 
-    cgpa: {
-      type: Number,
-      required: true,
+    image: {
+      type: String,
+      default: "",
     },
   },
   {

@@ -8,14 +8,14 @@ export const getStudents = async (req, res) => {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 5;
     const search = req.query.search || "";
-    const sortBy = req.query.sortBy || "name";
+    const sortBy = req.query.sortBy || "studentName"; // Updated
     const order = req.query.order === "desc" ? -1 : 1;
 
     const skip = (page - 1) * limit;
 
     const filter = {
       $or: [
-        { name: { $regex: search, $options: "i" } },
+        { studentName: { $regex: search, $options: "i" } }, // Updated
         { email: { $regex: search, $options: "i" } },
         { phone: { $regex: search, $options: "i" } },
         { branch: { $regex: search, $options: "i" } },
@@ -77,7 +77,19 @@ export const getStudentById = async (req, res) => {
 // ======================
 export const addStudent = async (req, res) => {
   try {
-    const student = await Student.create(req.body);
+    // Updated
+    const { studentName, email, phone, branch, roomNo } = req.body;
+
+    const image = req.file ? req.file.filename : "";
+
+    const student = await Student.create({
+      studentName, // Updated
+      email,
+      phone,
+      branch,
+      roomNo,
+      image,
+    });
 
     res.status(201).json({
       success: true,
@@ -97,9 +109,17 @@ export const addStudent = async (req, res) => {
 // ======================
 export const updateStudent = async (req, res) => {
   try {
+    const updateData = {
+      ...req.body,
+    };
+
+    if (req.file) {
+      updateData.image = req.file.filename;
+    }
+
     const student = await Student.findByIdAndUpdate(
       req.params.id,
-      req.body,
+      updateData,
       {
         new: true,
         runValidators: true,

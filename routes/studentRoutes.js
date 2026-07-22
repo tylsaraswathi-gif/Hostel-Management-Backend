@@ -1,4 +1,5 @@
 import express from "express";
+import upload from "../middleware/uploads.js";
 
 import {
   getStudents,
@@ -38,8 +39,11 @@ router.get("/:id", getStudentById);
 
 // =======================
 // Add Student
-// =======================
-router.post("/", addStudent);
+// ======================= 
+  router.post("/",
+  //receive one file as image 
+  upload.single("image"),
+  addStudent);
 
 // =======================
 // Update Student
