@@ -1,5 +1,4 @@
 import express from "express";
-import upload from "../middleware/uploads.js";
 
 import {
   getStudents,
@@ -7,52 +6,34 @@ import {
   addStudent,
   updateStudent,
   deleteStudent,
-  loginStudent,
 } from "../controllers/studentControllers.js";
+
+import { auth } from "../middleware/authMiddleware.js";
+import { adminOnly } from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
-// =======================
-// Login
-// =======================
-router.post("/login", loginStudent);
+// ===============================
+// Protected Routes (Logged-in Users)
+// ===============================
 
-// =======================
-// Get All Students
-// Supports:
-// page
-// limit
-// search
-// sortBy
-// order
-// Example:
-// /api/students?page=1&limit=5
-// /api/students?page=2&limit=5&search=John
-// /api/students?page=1&limit=5&sortBy=studentName&order=asc
-// =======================
-router.get("/", getStudents);
+// Get all students
+router.get("/", auth, getStudents);
 
-// =======================
-// Get Student By ID
-// =======================
-router.get("/:id", getStudentById);
+// Get student by ID
+router.get("/:id", auth, getStudentById);
 
-// =======================
-// Add Student
-// ======================= 
-  router.post("/",
-  //receive one file as image 
-  upload.single("image"),
-  addStudent);
+// ===============================
+// Admin Only Routes
+// ===============================
 
-// =======================
-// Update Student
-// =======================
-router.put("/:id", updateStudent);
+// Add new student
+router.post("/", auth, adminOnly, addStudent);
 
-// =======================
-// Delete Student
-// =======================
-router.delete("/:id", deleteStudent);
+// Update student
+router.put("/:id", auth, adminOnly, updateStudent);
+
+// Delete student
+router.delete("/:id", auth, adminOnly, deleteStudent);
 
 export default router;
